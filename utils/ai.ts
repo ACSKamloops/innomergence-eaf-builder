@@ -9,6 +9,14 @@ import {
   RatePrimitive,
   BannedTerm
 } from './primitives';
+import {
+  AuditTrail,
+  createAuditTrail,
+  logPrimitive,
+  markLLMFallback,
+  finalizeAuditTrail,
+  generateComplianceReport
+} from './auditTrail';
 
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
@@ -47,6 +55,7 @@ const BANNED_TERMS: BannedTerm[] = [
 interface SkillMatch {
   matched: boolean;
   rate?: RatePrimitive;
+  rateId?: string;
   suggestedMath?: string;
   complianceIssues?: BannedTerm[];
 }
