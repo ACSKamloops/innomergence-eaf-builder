@@ -1,91 +1,168 @@
-# EAF Primitives: Calculation Formulas
-# Standard math patterns for cost breakdowns
-# These formulas ensure consistent, auditable calculations
+# EAF Primitives: Approved Calculations & Examples
+# Verbatim calculations from 2022 APPROVED EAFs
+# Each example is audit-ready with source citation
 
 formulas:
   equipment_rental:
     pattern: "{quantity} x ${rate}/{unit} x {duration} {unit}s = ${total}"
     examples:
-      - description: "Excavator rental for fire guard construction"
-        calculation: "2 x $145/hr x 8 hours x 5 days = $11,600"
+      # EAF 2022-10: Forklift rental
+      - source: "EAF 2022-10 APPROVED (Forklift Rental)"
+        verbatim: "$800/week for 2 weeks = $1,600"
+        breakdown:
+          rate: 800
+          unit: week
+          duration: 2
+          total: 1600
+
+      # EAF 2022-16: Pump rental
+      - source: "EAF 2022-16 APPROVED (Pump Rental)"
+        verbatim: "$90/day for 7 days = $630"
+        breakdown:
+          rate: 90
+          unit: day
+          duration: 7
+          total: 630
+
+      # EAF 2022-07: Truck rental at standard rate
+      - source: "EAF 2022-07 APPROVED (Truck Rental)"
+        verbatim: "Two trucks for 14 days x $100 per day"
         breakdown:
           quantity: 2
-          rate: 145
-          unit: hour
-          duration: 40 # 8 hours x 5 days
-          total: 11600
+          rate: 100
+          unit: day
+          duration: 14
+          total: 2800
 
-      - description: "Forklift for sandbag operations"
-        calculation: "1 x $125/hr x 6 hours x 3 days = $2,250"
+      # EAF 2022-07 AMEND 1: Elevated rate with justification
+      - source: "EAF 2022-07 AMEND 1"
+        verbatim: "Two trucks for 14 days x $160 per day"
+        justification: "actual rental rate was higher than first estimated (and over Blue Book rates) due to the effects of COVID on rental truck supply"
         breakdown:
-          quantity: 1
-          rate: 125
-          unit: hour
-          duration: 18
-          total: 2250
+          quantity: 2
+          rate: 160
+          unit: day
+          duration: 14
+          total: 4480
+
+      # EAF 2022-15: Truck rental extension
+      - source: "EAF 2022-15 APPROVED (Truck Rental Extension)"
+        verbatim: "Two trucks for 14 days x $160 per day per truck = $4,480"
+        breakdown:
+          quantity: 2
+          rate: 160
+          unit: day
+          duration: 14
+          total: 4480
 
   staffing:
-    pattern: "{workers} x ${rate}/hr x {hours}/day x {days} days = ${total}"
+    pattern: "{workers} x ${rate}/hr x {hours} hours x {days} days = ${total}"
     examples:
-      - description: "Clerical overtime for EOC operations"
-        calculation: "2 x $45/hr x 8 hours x 5 days = $3,600"
+      # EAF 2022-14: Sand delivery personnel
+      - source: "EAF 2022-14 APPROVED (Sand Delivery)"
+        verbatim: "6 x $35 x 8 hours X 2 days = $3,360"
+        breakdown:
+          workers: 6
+          rate: 35
+          hours_per_day: 8
+          days: 2
+          total: 3360
+
+      # EAF 2022-13: Logistics personnel
+      - source: "EAF 2022-13 APPROVED (Logistics Personnel)"
+        verbatim: "2 x $35/hour x 8 hours X 6 days = $3,360"
         breakdown:
           workers: 2
-          rate: 45
+          rate: 35
           hours_per_day: 8
-          days: 5
-          total: 3600
+          days: 6
+          total: 3360
 
-      - description: "Logistics backfill staff"
-        calculation: "1 x $55/hr x 10 hours x 7 days = $3,850"
+      # EAF 2022-19: Demob crew
+      - source: "EAF 2022-19 APPROVED (Gabion Demob)"
+        verbatim: "6 people x $35/hr x 12 hrs = $2520"
+        breakdown:
+          workers: 6
+          rate: 35
+          hours_per_day: 12
+          days: 1
+          total: 2520
+
+      # EAF 2022-01: Finance staff at higher rate
+      - source: "EAF 2022-01 APPROVED (Finance Staff)"
+        verbatim: "140 hours x $45 = $6,300"
+        note: "$45/hour (includes benefits)"
         breakdown:
           workers: 1
-          rate: 55
-          hours_per_day: 10
-          days: 7
-          total: 3850
+          rate: 45
+          total_hours: 140
+          total: 6300
 
-  livestock_feed:
-    pattern: "{head_count} head x ${daily_rate}/day x {days} days = ${total}"
+  consulting:
+    pattern: "Professional services - ${lump_sum} estimate/assessment"
     examples:
-      - description: "Cattle feed during evacuation"
-        calculation: "65 head x $35/day x 14 days = $31,850"
-        breakdown:
-          head_count: 65
-          daily_rate: 35
-          days: 14
-          total: 31850
+      # EAF 2022-02: Geotechnical assessment
+      - source: "EAF 2022-02 APPROVED (Geotech)"
+        verbatim: "A verbal estimate of $2,500 was received from Westrek"
+        service: "Qualified Professional Geotechnical Engineer to immediately assess slopes for public safety"
+        total: 2500
 
-      - description: "Horse boarding"
-        calculation: "12 horses x $40/day x 10 days = $4,800"
-        breakdown:
-          head_count: 12
-          daily_rate: 40
-          days: 10
-          total: 4800
+      # EAF 2022-11: Geotechnical analysis (larger scope)
+      - source: "EAF 2022-11 APPROVED (Geotech Sicamous/Wiseman)"
+        service: "geotechnical analysis in Sicamous and Wiseman Creek - one day of ground level fieldwork for two geotechnical engineers"
+        total: 8000
+
+      # EAF 2022-04: Engineering monitoring
+      - source: "EAF 2022-04 APPROVED (Engineer Wiseman Creek)"
+        service: "scientific interpretations of data from early warning system"
+        total: 5000
 
   supplies:
     pattern: "{quantity} x ${unit_cost} = ${total}"
+    alternate_pattern: "{loads} x ${rate_per_load} = ${total}"
     examples:
-      - description: "Sandbags for flood mitigation"
-        calculation: "5,000 sandbags x $0.75 = $3,750"
+      # EAF 2022-12: Sand delivery
+      - source: "EAF 2022-12 APPROVED (Sand)"
+        verbatim: "1.5 X 20 x $300 = $9,000"
+        note: "Delivery of sand has increased significantly - average delivery cost for 2022 is estimated at $300/12 yard load"
+        historical_reference: "In 2018, SEP delivered 197 loads of sand (2,370 yards) for just under $50,000. Average was $254/load"
         breakdown:
-          quantity: 5000
-          unit_cost: 0.75
-          total: 3750
+          loads_per_location: 1.5
+          locations: 20
+          rate_per_load: 300
+          total: 9000
 
-  transport:
-    pattern: "{trips} trips x ${rate}/trip = ${total}"
-    alternate_pattern: "{hours} hours x ${rate}/hr = ${total}"
+  insurance_deductible:
+    pattern: "Deductible capped at lesser of actual or $1,000"
+    example:
+      source: "EAF 2022-18 APPROVED (Rental Truck Deductible)"
+      verbatim: "$1000 deductible was owing for the minor damage"
+      rule: "reimbursement for repair or replacement for damage to or loss of vehicles will be limited to the lesser of the insurance deductible or $1,000"
+      max_amount: 1000
 
-# Required elements for all calculations
-required_elements:
-  - "Mathematical breakdown showing rate x quantity x duration"
-  - "Reference to rate source (Blue Book, Policy 2.01, etc.)"
-  - "Clear link to specific BCEMS goal or imminent threat"
+# Rate summary table for quick reference
+rate_summary:
+  staffing:
+    logistics_personnel: 35
+    skilled_technician: 45
+    finance_staff_with_benefits: 45
+    unit: "per hour"
 
-# Approval triggers - when calculations exceed thresholds
-approval_triggers:
-  eoc_threshold: 10000 # Amounts above this need EOC Director approval
-  preoc_threshold: 50000 # Amounts above this need PREOC Director approval
-  provincial_threshold: 100000 # Amounts above this need Provincial approval
+  equipment:
+    forklift: { rate: 800, unit: "week" }
+    pump_3_inch: { rate: 90, unit: "day" }
+    truck_rental_standard: { rate: 100, unit: "day" }
+    truck_rental_elevated:
+      { rate: 160, unit: "day", note: "requires supply chain justification" }
+
+  consulting:
+    geotech_basic: { min: 2500, max: 4000 }
+    geotech_extended: { min: 8000, max: 8500 }
+    engineering_monitoring: { rate: 5000 }
+
+  supplies:
+    sand_delivery_per_load: { rate: 300, note: "12 yard load, 2022 rate" }
+    sand_delivery_2018: { rate: 254, note: "historical reference" }
+
+  other:
+    vehicle_deductible_max: 1000
