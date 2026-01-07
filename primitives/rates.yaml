@@ -1,6 +1,7 @@
 # EAF Primitives: Equipment & Staffing Rates
 # Source of truth for all rate-based calculations
 # Last updated: 2026-01-07 (EMCR Policy 2.01)
+# Rates verified against 2022 Approved EAFs
 
 equipment_rental:
   excavator:
@@ -25,6 +26,15 @@ equipment_rental:
       source: "Blue Book Equipment Rental Rate Guide"
       triggers: ["large excavator", "200 excavator", "heavy excavator"]
 
+    # From EAF 2022-06: Debris removal at bridge
+    with_operator_debris:
+      description: "Excavator with operator for debris removal"
+      rate: 3000
+      unit: "lump sum"
+      source: "EAF 2022-06 APPROVED (Bridge Debris Removal)"
+      verbatim: "excavator with operator and low bed truck and trailer to remove debris"
+      triggers: ["debris removal", "bridge debris", "woody debris"]
+
   dozer:
     d6:
       description: "Dozer (D6 / Cat 6 equivalent)"
@@ -40,6 +50,25 @@ equipment_rental:
       unit: day
       source: "Blue Book Equipment Rental Rate Guide"
       triggers: ["pickup", "4x4 truck", "light truck"]
+
+    # From EAF 2022-07: Truck rental at Blue Book rate
+    rental_standard:
+      description: "Rental Truck (standard)"
+      rate: 100
+      unit: day
+      source: "EAF 2022-07 APPROVED (Truck Rental)"
+      verbatim: "Two trucks for 14 days x $100 per day"
+      triggers: ["rental truck", "delivery truck"]
+
+    # From EAF 2022-07 AMEND 1: Above Blue Book rate with justification
+    rental_elevated:
+      description: "Rental Truck (elevated rate - requires justification)"
+      rate: 160
+      unit: day
+      source: "EAF 2022-07 AMEND 1 (COVID supply impact)"
+      verbatim: "actual rental rate was higher than first estimated (and over Blue Book rates) due to the effects of COVID on rental truck supply"
+      note: "Requires EMBC Regional Manager pre-approval when exceeding Blue Book"
+      triggers: ["truck rental high", "elevated rate"]
 
     water_tender:
       description: "Water Tender (2000-3000 Gal)"
