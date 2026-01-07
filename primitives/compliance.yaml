@@ -59,7 +59,51 @@ banned_terms:
     reason: "Must link to specific threat/BCEMS goal"
     severity: warning
 
-# Approved language patterns
+# Real rejection examples from 2022 EAFs
+# Use these patterns for proactive warnings
+rejection_examples:
+  # EAF 2022-16: Initially DECLINED before reconsideration
+  - source: "EAF 2022-16 (Pump Rental) - INITIALLY DECLINED"
+    verbatim: "This request is declined. As there was already a pump being used this would be considered a normal operating cost and therefore ineligible under response."
+    trigger_pattern: "replacement for existing equipment"
+    warning: "If replacing equipment already in use, you MUST justify why original is insufficient"
+    resolution: "Upon reconsideration, approved because 'pump was being used for flood response therefore the rental of replacement is eligible'"
+    lesson: "Frame as CAPACITY INCREASE, not replacement"
+
+  # EAF 2022-19: Approval with explicit scope limitation
+  - source: "EAF 2022-19 (Gabion Demob) - APPROVED WITH CONDITIONS"
+    verbatim: "Please note that debris removal on private property or is not critical for public safety is outside of scope for this approval"
+    warning: "Private property work excluded unless PUBLIC SAFETY critical"
+    trigger_pattern: "private property|residential property"
+
+  # EAF 2022-15: Elevated rate caution
+  - source: "EAF 2022-15 (Truck Rental Extension) - APPROVED WITH NOTE"
+    verbatim: "The rate for the rentals exceeds blue book but due to supply chain issues is the cost that rental agencies are charging"
+    warning: "Rates above Blue Book require explicit supply chain justification"
+    trigger_pattern: "exceeds|above|higher than"
+
+# Warning triggers based on rejection patterns
+warning_triggers:
+  normal_operating_cost:
+    patterns:
+      ["already have", "existing", "replacement for", "we own", "our equipment"]
+    warning: "May be considered 'normal operating cost' - justify why existing resources insufficient"
+    severity: danger
+
+  private_property:
+    patterns: ["private property", "residential", "homeowner", "personal"]
+    warning: "Private property work often outside scope - emphasize PUBLIC SAFETY"
+    severity: warning
+
+  rate_variance:
+    patterns: ["higher than blue book", "exceeds guideline", "above standard"]
+    warning: "Rates exceeding Blue Book require supply chain/availability justification"
+    severity: warning
+
+  scope_creep:
+    patterns: ["while we're at it", "also", "might as well", "in addition"]
+    warning: "Keep requests focused - scope creep triggers additional review"
+    severity: info
 approved_phrases:
   threat_language:
     - "To mitigate the imminent threat of [hazard] to [target]"
