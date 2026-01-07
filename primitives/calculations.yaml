@@ -1,0 +1,91 @@
+# EAF Primitives: Calculation Formulas
+# Standard math patterns for cost breakdowns
+# These formulas ensure consistent, auditable calculations
+
+formulas:
+  equipment_rental:
+    pattern: "{quantity} x ${rate}/{unit} x {duration} {unit}s = ${total}"
+    examples:
+      - description: "Excavator rental for fire guard construction"
+        calculation: "2 x $145/hr x 8 hours x 5 days = $11,600"
+        breakdown:
+          quantity: 2
+          rate: 145
+          unit: hour
+          duration: 40 # 8 hours x 5 days
+          total: 11600
+
+      - description: "Forklift for sandbag operations"
+        calculation: "1 x $125/hr x 6 hours x 3 days = $2,250"
+        breakdown:
+          quantity: 1
+          rate: 125
+          unit: hour
+          duration: 18
+          total: 2250
+
+  staffing:
+    pattern: "{workers} x ${rate}/hr x {hours}/day x {days} days = ${total}"
+    examples:
+      - description: "Clerical overtime for EOC operations"
+        calculation: "2 x $45/hr x 8 hours x 5 days = $3,600"
+        breakdown:
+          workers: 2
+          rate: 45
+          hours_per_day: 8
+          days: 5
+          total: 3600
+
+      - description: "Logistics backfill staff"
+        calculation: "1 x $55/hr x 10 hours x 7 days = $3,850"
+        breakdown:
+          workers: 1
+          rate: 55
+          hours_per_day: 10
+          days: 7
+          total: 3850
+
+  livestock_feed:
+    pattern: "{head_count} head x ${daily_rate}/day x {days} days = ${total}"
+    examples:
+      - description: "Cattle feed during evacuation"
+        calculation: "65 head x $35/day x 14 days = $31,850"
+        breakdown:
+          head_count: 65
+          daily_rate: 35
+          days: 14
+          total: 31850
+
+      - description: "Horse boarding"
+        calculation: "12 horses x $40/day x 10 days = $4,800"
+        breakdown:
+          head_count: 12
+          daily_rate: 40
+          days: 10
+          total: 4800
+
+  supplies:
+    pattern: "{quantity} x ${unit_cost} = ${total}"
+    examples:
+      - description: "Sandbags for flood mitigation"
+        calculation: "5,000 sandbags x $0.75 = $3,750"
+        breakdown:
+          quantity: 5000
+          unit_cost: 0.75
+          total: 3750
+
+  transport:
+    pattern: "{trips} trips x ${rate}/trip = ${total}"
+    alternate_pattern: "{hours} hours x ${rate}/hr = ${total}"
+
+# Required elements for all calculations
+required_elements:
+  - "Mathematical breakdown showing rate x quantity x duration"
+  - "Reference to rate source (Blue Book, Policy 2.01, etc.)"
+  - "Clear link to specific BCEMS goal or imminent threat"
+
+# Approval triggers - when calculations exceed thresholds
+approval_triggers:
+  eoc_threshold: 10000 # Amounts above this need EOC Director approval
+  preoc_threshold: 50000 # Amounts above this need PREOC Director approval
+  provincial_threshold: 100000 # Amounts above this need Provincial approval

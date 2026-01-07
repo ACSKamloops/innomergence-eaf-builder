@@ -1,0 +1,152 @@
+# EAF Primitives: Compliance & Terminology
+# Banned words, safe alternatives, and required elements
+# Ensures all outputs are audit-ready
+
+banned_terms:
+  # Terms that trigger rejection
+  - term: "upgrade"
+    safe_alternative: "restore to pre-disaster condition"
+    reason: "Betterment is not eligible"
+    severity: danger
+
+  - term: "improve"
+    safe_alternative: "repair"
+    reason: "Improvements are considered capital upgrades"
+    severity: warning
+
+  - term: "future"
+    safe_alternative: "imminent"
+    reason: "Prevention of future events is not eligible"
+    severity: danger
+
+  - term: "training"
+    safe_alternative: "just-in-time safety briefing"
+    reason: "General training is not eligible during response"
+    severity: warning
+
+  - term: "standby"
+    safe_alternative: "staged for immediate deployment"
+    reason: "Paying for idle assets is often rejected"
+    severity: warning
+
+  - term: "purchase"
+    safe_alternative: "rental"
+    reason: "Capital purchases > $100 require strict pre-approval"
+    severity: warning
+
+  - term: "landscaping"
+    safe_alternative: "debris removal for public safety"
+    reason: "Landscaping is not eligible"
+    severity: warning
+
+  - term: "renovation"
+    safe_alternative: "restoration"
+    reason: "Renovations imply betterment"
+    severity: warning
+
+  - term: "necessary"
+    safe_alternative: "required to [specific BCEMS goal]"
+    reason: "Too vague for compliance; be specific"
+    severity: info
+
+  - term: "various"
+    safe_alternative: "[list specific items]"
+    reason: "Auditors reject vague descriptions"
+    severity: info
+
+  - term: "for emergency"
+    safe_alternative: "to mitigate imminent threat to [specific target]"
+    reason: "Must link to specific threat/BCEMS goal"
+    severity: warning
+
+# Approved language patterns
+approved_phrases:
+  threat_language:
+    - "To mitigate the imminent threat of [hazard] to [target]"
+    - "Required to protect [public health/property/infrastructure] from [hazard]"
+    - "Essential for life safety during active [event type]"
+    - "Necessary to reduce suffering of [affected population]"
+
+  cost_justification:
+    - "Rate verified against Blue Book Equipment Rental Rate Guide"
+    - "Consistent with EMCR Policy 2.01 rates"
+    - "Within provincial standard rates for [service type]"
+    - "Overtime rate per collective agreement"
+
+  eligibility_triggers:
+    - "Incremental costs above normal operations"
+    - "Directly related to response event [Task #]"
+    - "Consumable supplies for immediate response use"
+    - "Rental preferred over purchase per EMCR guidelines"
+
+# Required elements by category
+required_elements:
+  all_categories:
+    - "Mathematical breakdown of costs"
+    - "Link to specific BCEMS goal"
+    - "Reference to imminent threat or active hazard"
+    - "Rate source citation"
+    - "Task number reference"
+
+  equipment_rental:
+    - "Blue Book rate verification"
+    - "Duration in hours/days"
+    - "Specific task/objective"
+    - "Wet vs dry rental specification (if applicable)"
+
+  staffing:
+    - "Overtime or backfill specification (not base wages)"
+    - "EOC section assignment"
+    - "Hours and duration"
+    - "Rate basis (agreement/policy)"
+
+  livestock:
+    - "Producer name"
+    - "Animal count and type"
+    - "Evacuation order reference"
+    - "Policy 2.01 rate citation"
+
+  security:
+    - "Requesting authority (RCMP/EOC Director)"
+    - "Patrol zone specification"
+    - "Public safety justification"
+
+# Ineligible categories (automatic rejection)
+ineligible:
+  universal:
+    - "Capital improvements or betterment"
+    - "Normal operating costs"
+    - "Base salaries of permanent employees"
+    - "Prevention of future events"
+    - "Business interruption losses"
+    - "Loss of tax base"
+
+  pets_hobby:
+    - "Rescue or relocation of pets"
+    - "Backyard or hobby animals"
+    - "Non-commercial livestock"
+
+  private_benefit:
+    - "Protection of specific private commercial assets"
+    - "Security for private facilities (non-public safety)"
+    - "Landscaping for aesthetic purposes"
+
+# Audit checklist primitives
+audit_checklist:
+  pre_submission:
+    - check: "Amount matches calculation"
+      auto_verify: true
+    - check: "No banned terms in description"
+      auto_verify: true
+    - check: "BCEMS goal referenced"
+      auto_verify: true
+    - check: "Rate source cited"
+      auto_verify: true
+    - check: "Task number included"
+      auto_verify: false # Requires human input
+
+  post_approval:
+    - check: "Signatures complete"
+    - check: "Goods and Services Received stamp on invoices"
+    - check: "Timesheets reference Task Number"
+    - check: "Inventory tracked for assets"

@@ -1,0 +1,111 @@
+# EAF Primitives: Authority & Approval Thresholds
+# Defines who can approve what, under what conditions
+# Implements "bounded autonomy" per 2026 enterprise AI standards
+
+approval_thresholds:
+  eoc_director:
+    max_amount: 10000
+    title: "EOC Director"
+    requires: []
+    can_approve:
+      - "Equipment rentals within Blue Book rates"
+      - "Staffing overtime/backfill"
+      - "Supplies and consumables"
+      - "Contracted services (security, transport)"
+    cannot_approve:
+      - "Capital purchases > $100"
+      - "Contracts exceeding provincial rate guides"
+      - "Multi-day commitments exceeding $10,000"
+
+  preoc_director:
+    max_amount: 50000
+    title: "PREOC Director"
+    requires:
+      - "EOC Director signature"
+      - "EAF form completed"
+    can_approve:
+      - "Large equipment rentals"
+      - "Extended staffing commitments"
+      - "Security contracts"
+      - "Livestock relocation operations"
+    cannot_approve:
+      - "Capital improvements"
+      - "Contracts with betterment clauses"
+      - "Multi-jurisdictional agreements"
+
+  provincial_coordinator:
+    max_amount: null # Unlimited
+    title: "Provincial Emergency Coordinator"
+    requires:
+      - "PREOC Director signature"
+      - "Detailed justification"
+      - "Supporting documentation"
+    can_approve:
+      - "Major operations"
+      - "Multi-jurisdictional coordination"
+      - "Extended response commitments"
+
+# Role-based signing authority primitives
+signing_roles:
+  authorized_representative:
+    required_fields:
+      - name
+      - title
+      - organization
+      - phone
+      - email
+    must_verify:
+      - "Authority to bind organization"
+      - "Active task number assignment"
+
+  eoc_approval:
+    positions:
+      - "EOC Director"
+      - "Deputy EOC Director"
+      - "Operations Section Chief (delegated)"
+    requires_signature: true
+    requires_date: true
+
+  preoc_approval:
+    positions:
+      - "PREOC Director"
+      - "Deputy PREOC Director"
+    requires_signature: true
+    requires_date: true
+    review_criteria:
+      - "Within policy guidelines"
+      - "Rate verification complete"
+      - "Task number valid"
+
+# Escalation primitives
+escalation_rules:
+  over_threshold:
+    trigger: "Amount exceeds approval authority"
+    action: "Escalate to next level"
+    documentation: "Include justification for amount"
+
+  rate_variance:
+    trigger: "Rate exceeds Blue Book by > 10%"
+    action: "Escalate to PREOC with justification"
+    required_documentation:
+      - "Market rate comparison"
+      - "Why standard rates not available"
+
+  unusual_category:
+    trigger: "Request doesn't fit standard categories"
+    action: "EOC Director pre-consultation with PREOC"
+    documentation: "Detailed 'Other' justification required"
+
+# Indigenous sovereignty primitives (per OCAP principles)
+indigenous_authority:
+  first_nations_eoc:
+    recognition: "First Nations may operate independent EOCs"
+    approval_path: "Direct to EMCR (not through regional districts)"
+    special_considerations:
+      - "Cultural site protection may qualify as 'critical infrastructure'"
+      - "Elder safety prioritized under 'reduce suffering'"
+      - "Traditional lands included in 'property protection'"
+
+  shared_jurisdiction:
+    joint_approval: "Both FN EOC Director and Regional EOC Director"
+    documentation: "Protocol agreement reference"

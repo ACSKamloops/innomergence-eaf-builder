@@ -1,0 +1,152 @@
+# EAF Primitives: Equipment & Staffing Rates
+# Source of truth for all rate-based calculations
+# Last updated: 2026-01-07 (EMCR Policy 2.01)
+
+equipment_rental:
+  excavator:
+    mini:
+      description: "Mini Excavator (<10,000 lbs)"
+      rate: 105
+      unit: hour
+      source: "Blue Book Equipment Rental Rate Guide"
+      triggers: ["mini excavator", "small excavator", "compact excavator"]
+
+    mid:
+      description: "Excavator (120-160 size)"
+      rate: 145
+      unit: hour
+      source: "Blue Book Equipment Rental Rate Guide"
+      triggers: ["excavator", "backhoe", "120 excavator", "150 excavator"]
+
+    large:
+      description: "Excavator (200 size)"
+      rate: 165
+      unit: hour
+      source: "Blue Book Equipment Rental Rate Guide"
+      triggers: ["large excavator", "200 excavator", "heavy excavator"]
+
+  dozer:
+    d6:
+      description: "Dozer (D6 / Cat 6 equivalent)"
+      rate: 185
+      unit: hour
+      source: "Blue Book Equipment Rental Rate Guide"
+      triggers: ["dozer", "bulldozer", "d6", "cat 6"]
+
+  trucks:
+    pickup:
+      description: "Pickup Truck (4x4)"
+      rate: 120
+      unit: day
+      source: "Blue Book Equipment Rental Rate Guide"
+      triggers: ["pickup", "4x4 truck", "light truck"]
+
+    water_tender:
+      description: "Water Tender (2000-3000 Gal)"
+      rate: 140
+      unit: hour
+      source: "Blue Book Equipment Rental Rate Guide"
+      triggers: ["water tender", "water truck", "tanker"]
+
+  generator:
+    20kw:
+      description: "Generator (20kW Towable)"
+      rate: 250
+      unit: week
+      source: "Blue Book Equipment Rental Rate Guide"
+      triggers: ["generator", "portable generator", "towable generator"]
+
+  sanitation:
+    portable_toilet:
+      description: "Portable Toilet (Standard)"
+      rate: 150
+      unit: month
+      source: "Blue Book Equipment Rental Rate Guide"
+      triggers: ["portable toilet", "porta potty", "sanitation"]
+
+  pump:
+    standard:
+      description: "Dewatering Pump (Standard)"
+      rate: 85
+      unit: hour
+      source: "EMCR Equipment Rates Schedule"
+      triggers: ["pump", "dewatering", "water pump"]
+
+    large_capacity:
+      description: "Large Capacity Pump"
+      rate: 175
+      unit: hour
+      source: "EMCR Equipment Rates Schedule"
+      triggers: ["large pump", "high volume pump", "flood pump"]
+
+  forklift:
+    standard:
+      description: "Forklift (Warehouse)"
+      rate: 125
+      unit: hour
+      source: "Blue Book Equipment Rental Rate Guide"
+      triggers: ["forklift", "material handling", "lift truck"]
+
+staffing:
+  overtime:
+    clerical:
+      description: "Clerical/Admin Support"
+      rate_range: [35, 45]
+      unit: hour
+      source: "Local Authority Wage Agreements"
+      triggers: ["clerical", "admin", "office support"]
+
+    technical:
+      description: "Technical/Professional Staff"
+      rate_range: [55, 75]
+      unit: hour
+      source: "Local Authority Wage Agreements"
+      triggers: ["technical", "professional", "specialist"]
+
+    management:
+      description: "Management/Director Level"
+      rate_range: [75, 100]
+      unit: hour
+      source: "Local Authority Wage Agreements"
+      triggers: ["manager", "director", "section chief"]
+
+  overtime_multiplier: 1.5
+
+  travel:
+    per_diem_group1: 75
+    per_diem_group2: 95
+    mileage_rate: 0.61
+    source: "EMCR Travel Policy / Employment Agreements"
+
+livestock:
+  feed_rates:
+    cattle:
+      daily_rate: 35
+      unit: "per head per day"
+      source: "EMCR Policy 2.01"
+      triggers: ["cattle", "cows", "beef", "dairy"]
+
+    horses:
+      daily_rate: 40
+      unit: "per head per day"
+      source: "EMCR Policy 2.01"
+      triggers: ["horse", "horses", "equine"]
+
+    sheep_goats:
+      daily_rate: 15
+      unit: "per head per day"
+      source: "EMCR Policy 2.01"
+      triggers: ["sheep", "goat", "small livestock"]
+
+    poultry:
+      daily_rate: 2
+      unit: "per bird per day"
+      source: "EMCR Policy 2.01"
+      triggers: ["poultry", "chicken", "turkey", "birds"]
+
+  transport:
+    livestock_trailer:
+      rate: 175
+      unit: hour
+      source: "Commercial Hauling Rates"
+      triggers: ["livestock trailer", "cattle hauler"]
