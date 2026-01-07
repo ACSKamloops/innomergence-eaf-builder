@@ -1,0 +1,367 @@
+# =============================================================================
+# INNOMERGENCE EMERGENCY MANAGEMENT AI AGENTS SPECIFICATION
+# =============================================================================
+# Source: Kyle Wright + Steve Newton Collaboration (January 2026)
+# Purpose: AI agent definitions for emergency management workflow automation
+# Architecture: Narrow-focus, deterministic agents (not RAG-based)
+# =============================================================================
+
+meta:
+  project_name: "Innomergence EM Suite"
+  version: "0.1.0-alpha"
+  created: "2026-01-07"
+  stakeholders:
+    - name: "Steve Newton"
+      role: "Domain Expert / Product Owner"
+      background: "23yr wildfire ops, 7yr EMCR, 8yr consulting (73% First Nations)"
+    - name: "Kyle Wright"
+      role: "Technical Lead / AI Architect"
+      background: "Gaming analytics, First Nations governance platforms, M365 integration"
+  
+  philosophy:
+    north_star: "Less people in EOC, fewer hours, everything done"
+    approach: "Surgical, narrow-focus agents over general-purpose RAG"
+    pricing_model: "Free tier attracts users → Premium features for power users"
+    target_users:
+      - First Nations emergency management coordinators
+      - Regional district EOC staff
+      - Municipal emergency program managers
+
+# =============================================================================
+# FREE TIER AGENTS (7 agents - Community benefit, no cost)
+# =============================================================================
+
+free_tier:
+
+  # ---------------------------------------------------------------------------
+  # PRIORITY 1: EAF Builder (Currently in development)
+  # ---------------------------------------------------------------------------
+  eaf_builder:
+    name: "EAF Builder"
+    status: "alpha"
+    priority: 1
+    description: |
+      Generates policy-compliant Expenditure Authorization Form (Form 530) drafts
+      for BC emergency management reimbursement claims.
+    
+    problem_solved: |
+      - EAFs are frequently rejected due to incorrect wording ("upgrade" vs "restore")
+      - Staff turnover means institutional knowledge is lost
+      - EMCR has become adversarial about approvals
+      - Manual process causes delays during critical response periods
+    
+    data_sources:
+      approved_eafs:
+        source: "Columbia Shuswap Regional District (CSRD)"
+        count: "40-300 approved PDFs"
+        categories:
+          - "Livestock Relocation"
+          - "Security"
+          - "Evacuation Center"
+          - "Logistics/Transport"
+          - "Equipment Rental"
+          - "Staffing/Personnel"
+          - "Supplies"
+          - "Other"
+      policy_documents:
+        - "EMCR Financial Assistance Guide"
+        - "Blue Book Equipment Rental Rates"
+        - "Provincial Group 1/2 Travel Rates"
+        - "EMCR Policy 2.01 (Livestock)"
+    
+    technical_approach:
+      architecture: "Hard-coded YAML instructions (NOT RAG)"
+      reasoning: "RAG introduces randomness; narrow focus requires consistency"
+      embeddings: "Semantic analysis of successful EAFs for pattern recognition"
+      context_window: "Modern LLMs can hold all EAF rules without retrieval"
+      output_format: "Fillable PDF (Form 530) or copy-paste text"
+    
+    features:
+      free:
+        - Category-based templates
+        - BCEMS goal alignment
+        - Basic AI draft generation
+        - Risk audit (flag "betterment" language)
+      premium:
+        - Voice input
+        - Historical EAF search
+        - Auto-fill from previous submissions
+        - Multi-incident tracking
+        - Integration with EOC management systems
+    
+    audit_rules:
+      banned_words:
+        - trigger: "upgrade"
+          replacement: "restore"
+          reason: "Betterment is not eligible"
+        - trigger: "improve"
+          replacement: "repair"
+          reason: "Improvements are capital upgrades"
+        - trigger: "future"
+          replacement: "imminent"
+          reason: "Prevention of future events not eligible"
+        - trigger: "training"
+          replacement: "just-in-time briefing"
+          reason: "General training not eligible during response"
+        - trigger: "standby"
+          replacement: "active patrol"
+          reason: "Paying for idle assets often rejected"
+        - trigger: "purchase"
+          replacement: "rental"
+          reason: "Capital purchases >$100 require strict pre-approval"
+
+  # ---------------------------------------------------------------------------
+  # PRIORITY 2: ICS Org Chart Builder
+  # ---------------------------------------------------------------------------
+  org_chart_builder:
+    name: "ICS Org Chart Builder"
+    status: "alpha"
+    priority: 2
+    description: |
+      Drag-and-drop Incident Command System org chart generator with 
+      standardized ICS positions and span-of-control validation.
+    
+    problem_solved: |
+      - EOCs manually build org charts in Visio/PowerPoint/Excel
+      - Inconsistent formats across organizations
+      - Missing org charts on "game day" causes confusion
+      - Mutual aid partners need to know "who's who in the zoo"
+    
+    features:
+      free:
+        - Standard ICS hierarchy templates
+        - Drag-and-drop interface
+        - PDF/PNG export
+        - Role-based color coding
+      premium:
+        - Real-time collaboration
+        - Integration with personnel databases
+        - Shift scheduling overlay
+        - Contact information cards
+    
+    templates:
+      - "General EOC"
+      - "Wildfire Response"
+      - "Flood Response"
+      - "Multi-Agency Coordination"
+
+  # ---------------------------------------------------------------------------
+  # PRIORITY 3: Grant Writer
+  # ---------------------------------------------------------------------------
+  grant_writer:
+    name: "Grant Writer"
+    status: "planned"
+    priority: 3
+    description: |
+      AI-assisted grant application drafting using funder profiles 
+      and successful application patterns.
+    
+    problem_solved: |
+      - Grant writing is time-consuming for small bands
+      - Staff turnover loses knowledge of what works
+      - Funder preferences are opaque
+    
+    technical_approach:
+      method: "Funder profile generation from successful applications"
+      inputs:
+        - Successful grant applications (corpus)
+        - Funder scoring matrices
+        - Applicant CCP/strategic plans
+      outputs:
+        - Draft application text
+        - Compliance checklist
+        - Red flag warnings
+
+  # ---------------------------------------------------------------------------
+  # PRIORITY 4-7: Additional Free Tools
+  # ---------------------------------------------------------------------------
+  emergency_plan_parser:
+    name: "Emergency Plan Parser"
+    status: "planned"
+    priority: 4
+    description: |
+      Converts "75-pounder bum fluffery" emergency plans into 
+      actionable playbooks, checklists, and flowcharts.
+    
+    problem_solved: |
+      - Plans are too wordy for game-day use
+      - Reference material is buried in prose
+      - New staff can't find critical procedures quickly
+
+  situation_report_generator:
+    name: "Situation Report Generator"
+    status: "planned"
+    priority: 5
+    description: |
+      Generates standardized SitReps from EOC log entries and 
+      incident updates.
+
+  resource_request_helper:
+    name: "Resource Request Helper"
+    status: "planned"
+    priority: 6
+    description: |
+      Assists with EMCR resource request submissions for resources
+      that cannot be sourced locally (geotech experts, weather forecasts, etc).
+
+  emergency_comms_assistant:
+    name: "Emergency Communications Assistant"
+    status: "planned"
+    priority: 7
+    description: |
+      Generates public-facing communications following emergency 
+      communication policy guidelines. Ensures calm, non-inflammatory 
+      language with key information bolded.
+
+# =============================================================================
+# PREMIUM TIER AGENTS (Subscription-based)
+# =============================================================================
+
+premium_tier:
+
+  voice_eoc_assistant:
+    name: "Voice EOC Assistant"
+    status: "planned"
+    tier: "premium"
+    description: |
+      Voice-enabled conversational AI for hands-free EOC operations.
+      Answers questions from knowledge base, takes notes, tracks actions.
+    
+    technology:
+      speech_to_text: "Open source voice models"
+      llm: "Local or cloud-based (configurable)"
+      text_to_speech: "Natural voice synthesis"
+
+  fire_behavior_analyst:
+    name: "Fire Behavior Analyst"
+    status: "planned"
+    tier: "premium"
+    description: |
+      Synthesizes IAP data, weather forecasts, and fire behavior 
+      predictions into community-specific risk assessments and 
+      evacuation trigger points.
+
+  recovery_claim_manager:
+    name: "Recovery Claim Manager"
+    status: "planned"
+    tier: "premium"
+    description: |
+      Tracks all EAFs, resource requests, and invoices for 
+      post-event recovery claim submission.
+
+# =============================================================================
+# SHARED ARCHITECTURE PATTERNS (Kyle Wright's Methodology)
+# =============================================================================
+
+architecture:
+
+  agent_design_principles:
+    - name: "Narrow Focus"
+      description: "Each agent does 1-2 things exceptionally well"
+    - name: "Deterministic Output"
+      description: "Hard-coded YAML skills, not temperature-based generation"
+    - name: "Modular Components"
+      description: "Easy to swap when policies/regulations change"
+    - name: "Replicable Results"
+      description: "Same input = same output every time"
+  
+  skill_structure:
+    description: |
+      Skills are strict instruction sets loaded when agents are invoked.
+      Based on ChatGPT Skills feature pattern.
+    format: "YAML"
+    components:
+      - objective: "What the skill accomplishes"
+      - constraints: "Hard rules that cannot be violated"
+      - workflow: "Step-by-step process"
+      - output_format: "Expected format of results"
+      - examples: "Gold-standard reference outputs"
+  
+  data_quality_tiers:
+    bronze:
+      description: "Raw ingested data, OCR processed"
+      quality: "Unverified, basic taxonomy assigned"
+    silver:
+      description: "Document type identified, words searchable"
+      quality: "Partial metadata, not fully tagged"
+    gold:
+      description: "Full metadata, verified content"
+      quality: "Ready for cross-module access and search"
+  
+  hosting_strategy:
+    alpha: "Google AI Studio (free hosting)"
+    beta: "Shared testing infrastructure"
+    production: "Canadian-hosted secure servers (OCAP compliant)"
+  
+  m365_integration:
+    philosophy: |
+      "Piggyback on established systems rather than reinvent.
+       Communities already use M365/Google. Limit liability by 
+       using their security infrastructure."
+    integration_points:
+      - SharePoint document storage
+      - Teams notifications
+      - Planner task tracking
+      - Power Automate workflows
+
+# =============================================================================
+# DEVELOPMENT ROADMAP
+# =============================================================================
+
+roadmap:
+  
+  phase_1_alpha:
+    timeline: "January 2026"
+    deliverables:
+      - EAF Builder functional prototype
+      - ICS Org Chart Builder alpha
+      - Initial user testing with 10 peers
+    success_criteria:
+      - Generates approvable EAF drafts
+      - Positive feedback from emergency managers
+  
+  phase_2_beta:
+    timeline: "Q1 2026"
+    deliverables:
+      - Grant Writer prototype
+      - Emergency Plan Parser
+      - Voice agent exploration
+    success_criteria:
+      - Free tier tools in regular use
+      - First Nations community adoption
+  
+  phase_3_production:
+    timeline: "Q2-Q3 2026"
+    deliverables:
+      - Premium tier launch
+      - Full M365 integration
+      - Multi-community deployment
+    success_criteria:
+      - Sustainable subscription revenue
+      - "Less people, fewer hours" measurable improvement
+
+# =============================================================================
+# CONTACTS & RESOURCES
+# =============================================================================
+
+resources:
+  
+  learning:
+    youtube_channels:
+      - name: "AI Search / AI Never Sleeps"
+        description: "Weekly AI research summaries, open source tools"
+        recommended_by: "Kyle Wright"
+  
+  data_sources:
+    eaf_examples: "/home/astraithious/Steve Projects/AI Agent - EAF Builder/"
+    original_form: "eoc_expenditure_authorization_form.docx"
+    policy_guide: "financial_assistance_guide.pdf"
+  
+  technical_contacts:
+    kyle_wright:
+      email: "ACSKamloops@gmail.com"
+      specialties:
+        - AI agent development
+        - M365 integration
+        - Indigenous governance platforms
+        - VR/AR cultural preservation

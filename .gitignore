@@ -1,0 +1,46 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Large archive files (reference data - not for repo)
+AI Agent - EAF Builder/*.zip
+AI Agent - EAF Builder/2022_Approved_EAFs/
+AI Agent - EAF Builder/2022_Sent_EAFS/
+AI Agent - EAF Builder/2023_CSRD_EAF_Requests/
+AI Agent - EAF Builder/2023_Provincial_Approval/
+AI Agent - EAF Builder/2024_CSRD_EAF_Request/
+AI Agent - EAF Builder/2024_Provincial_Approval/
+AI Agent - EAF Builder/extracted_text/
+
+# Transcripts (personal data)
+*transcript*.txt
+
+# Vercel
+.vercel
+
+# Environment
+.env
+.env.local
+# Sent EAFs
+AI Agent - EAF Builder/2022_Sent_EAFs/

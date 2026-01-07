@@ -1,0 +1,5 @@
+{
+  "name": "Innomergence EAF",
+  "description": "A specialized tool for Emergency Operations Centres to draft Expenditure Authorization Forms (EAFs) compliant with provincial guidelines, featuring historical data search, audit guardrails, and an interactive ICS Org Chart builder.",
+  "requestFramePermissions": []
+}

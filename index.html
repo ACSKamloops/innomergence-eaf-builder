@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Innomergence EAF</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+              mono: ['JetBrains Mono', 'monospace'],
+            },
+            colors: {
+              brand: {
+                50: '#EEF2FF',
+                100: '#E0E7FF',
+                200: '#C7D2FE',
+                400: '#6366F1',
+                500: '#4318FF', // Primary Brand Color (Electric Indigo)
+                600: '#3311DB',
+                700: '#260CCB',
+              },
+              navy: {
+                50: '#F0F2F5',
+                100: '#E0E5F2',
+                600: '#2B3674',
+                700: '#1B2559', // Deep Text
+                800: '#111C44',
+                900: '#0B1437',
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style type="text/tailwindcss">
+      @layer components {
+        /* Innomergence UI System */
+        .input-base {
+          @apply block w-full rounded-2xl border-none bg-white p-3.5 text-sm font-medium text-navy-700 placeholder:text-gray-400 focus:ring-2 focus:ring-brand-500/20 transition-all shadow-sm;
+        }
+        .btn-primary {
+          @apply inline-flex items-center justify-center gap-2 rounded-2xl bg-brand-500 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-brand-500/40 hover:bg-brand-600 hover:shadow-brand-500/20 active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all;
+        }
+        .btn-secondary {
+          @apply inline-flex items-center justify-center gap-2 rounded-2xl bg-white px-6 py-3 text-sm font-bold text-navy-700 shadow-[0_2px_10px_0_rgba(0,0,0,0.05)] hover:bg-gray-50 active:scale-[0.98] transition-all disabled:opacity-50 border border-transparent;
+        }
+        .card-base {
+          @apply rounded-[20px] bg-white shadow-[0_20px_27px_0_rgba(0,0,0,0.05)] border-none;
+        }
+        .sidebar-link {
+          @apply flex w-full items-center gap-3 rounded-xl px-4 py-3.5 text-sm font-bold transition-all duration-200;
+        }
+        .sidebar-link-active {
+          @apply bg-brand-500 text-white shadow-lg shadow-brand-500/30;
+        }
+        .sidebar-link-inactive {
+          @apply text-gray-500 hover:bg-gray-100 hover:text-navy-700;
+        }
+      }
+      
+      body { 
+        font-family: 'Plus Jakarta Sans', sans-serif; 
+        background-color: #F4F7FE; /* Light Grey-Blue Background */
+      }
+      .font-mono { font-family: 'JetBrains Mono', monospace; }
+      
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar { width: 6px; height: 6px; }
+      ::-webkit-scrollbar-track { background: transparent; }
+      ::-webkit-scrollbar-thumb { background: #A3AED0; border-radius: 3px; }
+      ::-webkit-scrollbar-thumb:hover { background: #707EAE; }
+      
+      /* Print styles for Form Preview */
+      .eaf-form-preview {
+        font-family: 'Arial', 'Helvetica', sans-serif;
+      }
+      .eaf-form-preview .label {
+        font-size: 0.65rem;
+        font-weight: 700;
+        color: #000;
+        line-height: 1;
+        margin-bottom: 2px;
+      }
+      .eaf-form-preview .value {
+        font-size: 0.85rem;
+        color: #000;
+        line-height: 1.2;
+        min-height: 1rem;
+      }
+      .eaf-border {
+        border: 1px solid #000;
+      }
+
+      @media print {
+        body * {
+          visibility: hidden;
+        }
+        /* Allow Form Preview to print */
+        .eaf-form-preview, .eaf-form-preview * {
+          visibility: visible;
+        }
+        .eaf-form-preview {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100%;
+          margin: 0;
+          box-shadow: none;
+          border: none;
+        }
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+    "clsx": "https://esm.sh/clsx@^2.1.1",
+    "html2canvas": "https://esm.sh/html2canvas@^1.4.1",
+    "framer-motion": "https://esm.sh/framer-motion@^12.23.26",
+    "fuse.js": "https://esm.sh/fuse.js@^7.1.0",
+    "jspdf": "https://esm.sh/jspdf@^3.0.4",
+    "@google/genai": "https://esm.sh/@google/genai"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body class="bg-[#F4F7FE] text-navy-700 h-screen overflow-hidden">
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
