@@ -1,44 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Innomergence EAF</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-              mono: ['JetBrains Mono', 'monospace'],
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Innomergence EAF</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#EEF2FF',
+              100: '#E0E7FF',
+              200: '#C7D2FE',
+              400: '#6366F1',
+              500: '#4318FF', // Primary Brand Color (Electric Indigo)
+              600: '#3311DB',
+              700: '#260CCB',
             },
-            colors: {
-              brand: {
-                50: '#EEF2FF',
-                100: '#E0E7FF',
-                200: '#C7D2FE',
-                400: '#6366F1',
-                500: '#4318FF', // Primary Brand Color (Electric Indigo)
-                600: '#3311DB',
-                700: '#260CCB',
-              },
-              navy: {
-                50: '#F0F2F5',
-                100: '#E0E5F2',
-                600: '#2B3674',
-                700: '#1B2559', // Deep Text
-                800: '#111C44',
-                900: '#0B1437',
-              }
+            navy: {
+              50: '#F0F2F5',
+              100: '#E0E5F2',
+              600: '#2B3674',
+              700: '#1B2559', // Deep Text
+              800: '#111C44',
+              900: '#0B1437',
             }
           }
         }
       }
-    </script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <style type="text/tailwindcss">
-      @layer components {
+    }
+  </script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <style type="text/tailwindcss">
+    @layer components {
         /* Innomergence UI System */
         .input-base {
           @apply block w-full rounded-2xl border-none bg-white p-3.5 text-sm font-medium text-navy-700 placeholder:text-gray-400 focus:ring-2 focus:ring-brand-500/20 transition-all shadow-sm;
@@ -115,26 +118,13 @@
         }
       }
     </style>
-  <script type="importmap">
-{
-  "imports": {
-    "react": "https://esm.sh/react@^19.2.3",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
-    "clsx": "https://esm.sh/clsx@^2.1.1",
-    "html2canvas": "https://esm.sh/html2canvas@^1.4.1",
-    "framer-motion": "https://esm.sh/framer-motion@^12.23.26",
-    "fuse.js": "https://esm.sh/fuse.js@^7.1.0",
-    "jspdf": "https://esm.sh/jspdf@^3.0.4",
-    "@google/genai": "https://esm.sh/@google/genai"
-  }
-}
-</script>
+
 
 </head>
-  <body class="bg-[#F4F7FE] text-navy-700 h-screen overflow-hidden">
-    <div id="root"></div>
+
+<body class="bg-[#F4F7FE] text-navy-700 h-screen overflow-hidden">
+  <div id="root"></div>
   <script type="module" src="/index.tsx"></script>
 </body>
+
 </html>
