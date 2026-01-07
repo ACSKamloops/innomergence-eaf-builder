@@ -1,12 +1,87 @@
 
 import { GoogleGenAI, Type } from "@google/genai";
 import { EAFFormDetails } from '../types';
+import {
+  findRateByTrigger,
+  checkCompliance,
+  generateMathBreakdown,
+  calculateFromBreakdown,
+  RatePrimitive,
+  BannedTerm
+} from './primitives';
 
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 const MODEL_FAST = 'gemini-3-flash-preview';
 
+// --- Primitives Data (inline for browser compatibility) ---
+// TODO: Load from YAML at build time for production
+
+const RATE_PRIMITIVES: Record<string, Record<string, RatePrimitive>> = {
+  equipment_rental: {
+    excavator: { description: "Excavator (120-160 size)", rate: 145, unit: 'hour', source: "Blue Book", triggers: ["excavator", "backhoe"] },
+    forklift: { description: "Forklift", rate: 125, unit: 'hour', source: "Blue Book", triggers: ["forklift", "lift", "material handling"] },
+    pump: { description: "Dewatering Pump", rate: 85, unit: 'hour', source: "EMCR", triggers: ["pump", "dewatering"] },
+    dozer: { description: "Dozer (D6)", rate: 185, unit: 'hour', source: "Blue Book", triggers: ["dozer", "bulldozer"] },
+  },
+  staffing: {
+    clerical: { description: "Clerical Support", rate: [35, 45] as unknown as number, unit: 'hour', source: "Local Authority", triggers: ["clerical", "admin"] },
+    technical: { description: "Technical Staff", rate: [55, 75] as unknown as number, unit: 'hour', source: "Local Authority", triggers: ["technical", "specialist"] },
+  },
+  livestock: {
+    cattle: { description: "Cattle feed/housing", rate: 35, unit: 'day' as any, source: "EMCR Policy 2.01", triggers: ["cattle", "cows", "beef"] },
+    horses: { description: "Horse feed/housing", rate: 40, unit: 'day' as any, source: "EMCR Policy 2.01", triggers: ["horse", "equine"] },
+  }
+};
+
+const BANNED_TERMS: BannedTerm[] = [
+  { term: "upgrade", safe_alternative: "restore to pre-disaster condition", reason: "Betterment not eligible", severity: 'danger' },
+  { term: "improve", safe_alternative: "repair", reason: "Improvements are capital upgrades", severity: 'warning' },
+  { term: "future", safe_alternative: "imminent", reason: "Prevention of future events not eligible", severity: 'danger' },
+  { term: "training", safe_alternative: "just-in-time safety briefing", reason: "General training not eligible", severity: 'warning' },
+  { term: "standby", safe_alternative: "staged for immediate deployment", reason: "Idle assets often rejected", severity: 'warning' },
+];
+
+// --- Primitive-First Skill Matching ---
+
+interface SkillMatch {
+  matched: boolean;
+  rate?: RatePrimitive;
+  suggestedMath?: string;
+  complianceIssues?: BannedTerm[];
+}
+
+function matchPrimitives(userInput: string, category?: string): SkillMatch {
+  const normalizedInput = userInput.toLowerCase();
+
+  // Try to find a matching rate primitive
+  const matchedRate = findRateByTrigger(normalizedInput, RATE_PRIMITIVES);
+
+  // Check for compliance issues
+  const compliance = checkCompliance(userInput, BANNED_TERMS);
+
+  // Extract numbers for potential calculation
+  const numbers = userInput.match(/\d+/g)?.map(Number) || [];
+
+  let suggestedMath: string | undefined;
+  if (matchedRate && numbers.length >= 2) {
+    // Try to build a math breakdown from extracted numbers
+    const rate = typeof matchedRate.rate === 'number' ? matchedRate.rate : matchedRate.rate[0];
+    const [quantity, duration] = numbers.length >= 2 ? [numbers[0], numbers[1]] : [1, numbers[0]];
+    const total = quantity * rate * duration;
+    suggestedMath = `${quantity} x $${rate}/${matchedRate.unit} x ${duration} ${matchedRate.unit}s = $${total.toLocaleString()}`;
+  }
+
+  return {
+    matched: !!matchedRate || !compliance.passed,
+    rate: matchedRate || undefined,
+    suggestedMath,
+    complianceIssues: compliance.violations.length > 0 ? compliance.violations : undefined
+  };
+}
+
 // --- System Instructions ---
+
 
 const BASE_SYSTEM_INSTRUCTION = `You are an expert Emergency Operations Centre (EOC) Logistics and Finance specialist. 
 Your goal is to ensure Expenditure Authorization Forms (EAFs) are compliant with provincial emergency management guidelines.
@@ -62,6 +137,26 @@ export const generateSmartDraft = async (
 ): Promise<string> => {
   if (!userInput) return "";
 
+  // --- PRIMITIVE-FIRST MATCHING (Skills Approach) ---
+  const primitiveMatch = matchPrimitives(userInput, category);
+
+  // Build primitive context for injection
+  let primitiveContext = "";
+  if (primitiveMatch.matched) {
+    if (primitiveMatch.rate) {
+      primitiveContext += `\n\nPRIMITIVE RATE IDENTIFIED: Use this exact rate: ${primitiveMatch.rate.description} @ $${typeof primitiveMatch.rate.rate === 'number' ? primitiveMatch.rate.rate : primitiveMatch.rate.rate[0]}/${primitiveMatch.rate.unit}. Source: ${primitiveMatch.rate.source}.`;
+    }
+    if (primitiveMatch.suggestedMath) {
+      primitiveContext += `\nSUGGESTED CALCULATION: ${primitiveMatch.suggestedMath}`;
+    }
+    if (primitiveMatch.complianceIssues && primitiveMatch.complianceIssues.length > 0) {
+      primitiveContext += `\n\nCOMPLIANCE WARNING - DO NOT USE THESE TERMS:`;
+      primitiveMatch.complianceIssues.forEach(issue => {
+        primitiveContext += `\n- AVOID "${issue.term}" → USE "${issue.safe_alternative}" (${issue.reason})`;
+      });
+    }
+  }
+
   const categoryInstruction = category ? `Context: This is a request for "${category}".` : "";
   const primerInstruction = categoryPrimer ? `\n\nCATEGORY PRIMER (CRITICAL): ${categoryPrimer}\nFollow this strategy closely.` : "";
   const policyInstruction = policyContext ? `\nStrictly adhere to these specific policy rules:\n- ${policyContext.join("\n- ")}` : "";
@@ -87,7 +182,7 @@ You MUST explicitly weave these goals into the narrative justification. Do not j
     const response = await ai.models.generateContent({
       model: MODEL_FAST,
       config: {
-        systemInstruction: BASE_SYSTEM_INSTRUCTION + "\n" + categoryInstruction + primerInstruction + policyInstruction + tipsInstruction + refInstruction + goalsInstruction,
+        systemInstruction: BASE_SYSTEM_INSTRUCTION + primitiveContext + "\n" + categoryInstruction + primerInstruction + policyInstruction + tipsInstruction + refInstruction + goalsInstruction,
         temperature: 0.2, // Lower temperature for more consistent, factual output
       },
       contents: `Transform the following rough notes into a formal, professional EAF description paragraph. Ensure you include the Math/Calculations if numbers are present in the notes:\n\n"${userInput}"\n\n${contextStr}`
